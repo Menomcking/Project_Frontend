@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Container } from 'react-bootstrap';
 
 interface State {
   users: User[],
@@ -76,13 +78,16 @@ class App extends Component<{}, State> {
   render() {
     const { userName, userPassword, userEmail } = this.state;
 
-    return <div>
-      <h2>Regisztráció</h2>
-      Felhasználónév: <input type="text" value={ userName } onChange={e => this.setState({ userName: e.currentTarget.value})}/><br />
-      Jelszó: <input type="password" value={ userPassword } onChange={e => this.setState({ userPassword: e.currentTarget.value})}/><br />
-      Email: <input type="text" value={ userEmail } onChange={e => this.setState({ userEmail: e.currentTarget.value})}/><br />
-      <button onClick={ this.handleRegister }>Regisztráció</button>
+    return <Container><div id="root">
+      <div id="registrationDiv" className="col-sm-12">
+      <h2 id="registrationH2">Regisztráció</h2>
+      <input type="text" className='registrationInput' placeholder='Felhasználónév' value={ userName } onChange={e => this.setState({ userName: e.currentTarget.value})}/><br />
+      <input type="password" className='registrationInput' placeholder='Jelszó' value={ userPassword } onChange={e => this.setState({ userPassword: e.currentTarget.value})}/><br />
+      <input type="text" className='registrationInput' placeholder='Email' value={ userEmail } onChange={e => this.setState({ userEmail: e.currentTarget.value})}/><br />
+      <button id='registrationButton' onClick={ this.handleRegister }>Regisztráció</button>
+      </div>
     </div>
+    </Container>
   }
 }
 
