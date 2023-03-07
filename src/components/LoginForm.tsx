@@ -1,7 +1,7 @@
 import { Component, FormEvent } from "react";
 
 interface State {
-    username: string;
+    email: string;
     password: string;
     loginError: string;
 }
@@ -16,7 +16,7 @@ export default class LoginForm extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
             loginError: '',
         }
@@ -37,11 +37,11 @@ export default class LoginForm extends Component<Props, State> {
     handleLogin = async (e: FormEvent) => {
         e.preventDefault();
         const loginData = {
-            'username': this.state.username,
+            'email': this.state.email,
             'password': this.state.password,
         };
 
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch('http://localhost:3000/authentication/log-in', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -50,7 +50,7 @@ export default class LoginForm extends Component<Props, State> {
         });
         if(!response.ok) {
             if(response.status === 401) {
-                this.setState({ loginError: 'Hibás név vagy jelszó' })
+                this.setState({ loginError: 'Hibás email cím vagy jelszó' })
             } else {
                 this.setState({ loginError: 'Szerver hiba' });
             }
@@ -59,7 +59,7 @@ export default class LoginForm extends Component<Props, State> {
         const responseBody = await response.json();
         localStorage.setItem('authToken', responseBody.token);
         this.setState({
-            username: '',
+            email: '',
             password: '',
             loginError: '',
         })
@@ -68,7 +68,7 @@ export default class LoginForm extends Component<Props, State> {
 
     render() {
         const { authToken } = this.props;
-        const { username, password, loginError } = this.state;
+        const { email, password, loginError } = this.state;
         const loggedIn = authToken != '';
 
         if (loggedIn) {
@@ -76,8 +76,8 @@ export default class LoginForm extends Component<Props, State> {
         }
         return <form onSubmit={this.handleLogin}>
             <label>
-                Felhasználónév:<br />
-                <input type="text" value={username} onChange={(e) => this.setState({ username: e.target.value })} />
+                Email:<br />
+                <input type="text" value={email} onChange={(e) => this.setState({ email: e.target.value })} />
             </label>
             <br />
             <label>

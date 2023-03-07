@@ -43,7 +43,7 @@ interface State {
         email: userEmail
       };
   
-      let response = await fetch('http://localhost:3000/register', {
+      let response = await fetch('http://localhost:3000/authentication/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
