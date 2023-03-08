@@ -1,5 +1,6 @@
 import { Component } from "react";
 import LoginForm from "./LoginForm";
+import Main from "./Main";
 
 interface State {
     authToken: string;
@@ -23,6 +24,11 @@ export default class Login extends Component<{}, State> {
             authToken={authToken}
             onAuthTokenChange={(token) => this.setState({ authToken: token })}
             />
+            {
+                loggedIn ?
+                    <Main /> :
+                    <p>Jelentkezz be!</p>
+            }
         </div>
     }
     

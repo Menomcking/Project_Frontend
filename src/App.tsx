@@ -6,6 +6,7 @@ import { Container } from 'react-bootstrap';
 import { Link, Route, Routes } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
+import Main from './components/Main';
 
 class App extends React.Component {
   render() {
