@@ -19,12 +19,18 @@ export default class NewStory extends Component<{}, State> {
         super(props);
 
         this.state = {
-            storyParts: [],
+            storyParts: [ { textPartId: -1, textPart: '', storyId: -1 } ],
             usersId: undefined,
             id: undefined,
             rating: 0,
             title: ''
         }
+    }
+
+    handleNewTextPart = () => {
+        const { storyParts } = this.state;
+        const newParts = [ ...storyParts, { textPartId: -1, textPart: '', storyId: -1 } ]
+        this.setState({ storyParts: newParts })
     }
 
     render() {
@@ -41,6 +47,9 @@ export default class NewStory extends Component<{}, State> {
                     return <input type="text" placeholder="Szöveg" value={ textPart } />
                 })
             }
+
+            <button onClick={this.handleNewTextPart}>Új szöveg</button>
+            
         </div>
     }
 }

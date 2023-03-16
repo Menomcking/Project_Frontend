@@ -1,4 +1,5 @@
 import { Component, FormEvent } from "react";
+import { Navigate } from "react-router-dom";
 
 interface State {
     email: string;
@@ -19,18 +20,6 @@ export default class LoginForm extends Component<Props, State> {
             email: '',
             password: '',
             loginError: '',
-        }
-    }
-
-    handleLogout = () => {
-        localStorage.removeItem('authToken');
-        this.props.onAuthTokenChange('');
-    }
-
-    componentDidMount(): void {
-        const token = localStorage.getItem('authToken')
-        if(token !== null) {
-            this.props.onAuthTokenChange(token)
         }
     }
 
@@ -70,10 +59,11 @@ export default class LoginForm extends Component<Props, State> {
         const { authToken } = this.props;
         const { email, password, loginError } = this.state;
         const loggedIn = authToken != '';
-
         if (loggedIn) {
-            return <button onClick={this.handleLogout}>Kijelentkezés</button>
+            return <Navigate to='/' />;
         }
+
+        
         return <form onSubmit={this.handleLogin}>
             <label>
                 Email:<br />
