@@ -47,6 +47,7 @@ export default class NewStory extends Component<{}, State> {
             title: title,
             description: description,
             picture: picture,
+            textPart: storyParts
         };
 
         let response = await fetch('http://localhost:3000/story/add-story', {
@@ -64,16 +65,27 @@ export default class NewStory extends Component<{}, State> {
         return <div>
             <button onClick={this.handleSave}>Mentés</button>
             <h3>Cím:</h3>
-            <input type="text" placeholder="Cím" value={ title }/>
+            <input type="text" placeholder="Cím" value={ title } onChange={(e) => this.setState({ title: e.target.value })}/>
             <h3>Leírás:</h3>
-            <input type="text" placeholder="Leírás" value={ description }/>
+            <input type="text" placeholder="Leírás" value={ description } onChange={(e) => this.setState({ description: e.target.value })}/>
             <h3>Index kép:</h3>
-            <input type="text" placeholder="Kép URL-je" value={ picture }/>
+            <input type="text" placeholder="Kép URL-je" value={ picture } onChange={(e) => this.setState({ picture: e.target.value })}/>
             <h3>Szöveg hozzáadása: </h3>
             {
-                storyParts.map(part => {
+                storyParts.map((part, index) => {
                     const { textPart } = part;
-                    return <input type="text" placeholder="Szöveg" value={ textPart } />
+                    return (
+                            <input 
+                            type="text" 
+                            placeholder="Szöveg" 
+                            value={textPart} 
+                            onChange={(e) => {
+                                const newStoryParts = [...storyParts];
+                                newStoryParts[index].textPart = e.target.value;
+                                this.setState({ storyParts: newStoryParts });
+                            }}
+                        />
+                    )
                 })
             }
 
