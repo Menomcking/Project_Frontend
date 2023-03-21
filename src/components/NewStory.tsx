@@ -6,6 +6,8 @@ interface State {
     id: number|undefined,
     rating: number,
     title: string,
+    description: string,
+    picture: string,
 }
 
 interface StoryParts {
@@ -23,7 +25,9 @@ export default class NewStory extends Component<{}, State> {
             usersId: undefined,
             id: undefined,
             rating: 0,
-            title: ''
+            title: '',
+            description: '',
+            picture: ''
         }
     }
 
@@ -33,13 +37,38 @@ export default class NewStory extends Component<{}, State> {
         this.setState({ storyParts: newParts })
     }
 
+    handleSave = async () => {
+        const { title, storyParts, description, picture } = this.state;
+        if (title.trim() == '' || storyParts.length == 0) {
+            return;
+        }
+
+        const adat = {
+            title: title,
+            description: description,
+            picture: picture,
+        };
+
+        let response = await fetch('http://localhost:3000/story/add-story', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(adat)
+      });
+    }
+
     render() {
-        const { title, storyParts } = this.state;
+        const { title, storyParts, description, picture } = this.state;
 
         return <div>
-            
+            <button onClick={this.handleSave}>Mentés</button>
             <h3>Cím:</h3>
             <input type="text" placeholder="Cím" value={ title }/>
+            <h3>Leírás:</h3>
+            <input type="text" placeholder="Leírás" value={ description }/>
+            <h3>Index kép:</h3>
+            <input type="text" placeholder="Kép URL-je" value={ picture }/>
             <h3>Szöveg hozzáadása: </h3>
             {
                 storyParts.map(part => {
