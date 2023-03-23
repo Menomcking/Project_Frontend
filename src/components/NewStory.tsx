@@ -37,7 +37,7 @@ export default class NewStory extends Component<{}, State> {
         this.setState({ storyParts: newParts })
     }
 
-    /*handleSave = async () => {
+    handleSave = async () => {
         const { title, storyParts, description, picture } = this.state;
         if (title.trim() == '' || storyParts.length == 0) {
             return;
@@ -57,20 +57,20 @@ export default class NewStory extends Component<{}, State> {
         },
         body: JSON.stringify(adat)
       });
-    }*/
+    }
 
-    handleClick = () => {
+    /*handleClick = () => {
         console.log(this.state.title)
         console.log(this.state.description)
         console.log(this.state.picture)
         console.log(this.state.storyParts)
-    }
+    }*/
 
     render() {
         const { title, storyParts, description, picture } = this.state;
 
         return <div>
-            <button onClick={this.handleClick}>Mentés</button>
+            <button onClick={this.handleSave}>Mentés</button>
             <h3>Cím:</h3>
             <input type="text" placeholder="Cím" value={ title } onChange={(e) => this.setState({ title: e.target.value })}/>
             <h3>Leírás:</h3>
