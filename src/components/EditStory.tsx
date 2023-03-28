@@ -4,7 +4,6 @@ interface State {
     storyParts: StoryParts[],
     usersId: number|undefined,
     id: number|undefined,
-    rating: number,
     title: string,
     description: string,
     picture: string,
@@ -24,7 +23,6 @@ export default class NewStory extends Component<{}, State> {
             storyParts: [ { textPartId: -1, textPart: '', storyId: -1 } ],
             usersId: undefined,
             id: undefined,
-            rating: 0,
             title: '',
             description: '',
             picture: ''
@@ -60,13 +58,6 @@ export default class NewStory extends Component<{}, State> {
         body: JSON.stringify(adat)
       });
     }
-
-    /*handleClick = () => {
-        console.log(this.state.title)
-        console.log(this.state.description)
-        console.log(this.state.picture)
-        console.log(this.state.storyParts)
-    }*/
 
     render() {
         const { title, storyParts, description, picture } = this.state;
