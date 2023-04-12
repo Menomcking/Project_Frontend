@@ -47,11 +47,8 @@ export default class NewStory extends Component<{}, State> {
             title: title,
             description: description,
             picture: picture,
-        };
-
-        const adat2 = {
             textPart: storyParts.map(part => ({ textPart: part }))
-          };
+        };
 
         let response = await fetch('http://localhost:3000/story/add-story', {
         method: 'POST',
@@ -59,14 +56,6 @@ export default class NewStory extends Component<{}, State> {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(adat)
-        });
-
-        let response2 = await fetch('http://localhost:3000/story/add-storyparts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(adat2)
         });
     }
 
