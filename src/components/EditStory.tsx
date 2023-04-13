@@ -15,8 +15,12 @@ interface StoryParts {
     storyId: number,
 }
 
-export default class NewStory extends Component<{}, State> {
-    constructor(props: {}) {
+interface Props {
+    authToken: string;
+}
+
+export default class NewStory extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {

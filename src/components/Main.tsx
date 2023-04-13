@@ -3,7 +3,11 @@ import { Link, Route, Routes } from "react-router-dom";
 import EditStory from "./EditStory";
 import NewStory from "./NewStory";
 
-export default class Main extends Component {
+interface Props {
+    authToken: string;
+}
+
+export default class Main extends Component <Props>{
 
     
 
@@ -15,8 +19,8 @@ export default class Main extends Component {
             <Link to="/editstory" className="btn btn-primary">Történet szerkesztése</Link>
             <button>Saját profil</button>
             <Routes>
-                <Route path="newstory" element={<NewStory />} />
-                <Route path="editstory" element={<EditStory />} />
+                <Route path="newstory" element={<NewStory authToken={this.props.authToken} />} />
+                <Route path="editstory" element={<EditStory authToken={this.props.authToken} />} />
             </Routes>
         </div>
     }

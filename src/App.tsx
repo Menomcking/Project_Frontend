@@ -59,7 +59,9 @@ class App extends React.Component <Props, State>{
             authToken={authToken}
             onAuthTokenChange={(token) => this.setState({ authToken: token })}
             />} />
-          <Route path='/*' element={loggedIn ? <Main /> : <p>Jelentkezz be!</p>}/>
+          <Route path='/*' element={loggedIn ? <Main 
+          authToken={authToken}
+          /> : <p>Jelentkezz be!</p>}/>
         </Routes>
       </main>
     </div>

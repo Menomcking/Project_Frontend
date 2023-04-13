@@ -10,9 +10,13 @@ interface State {
     picture: string,
 }
 
+interface Props {
+    authToken: string;
+}
 
-export default class NewStory extends Component<{}, State> {
-    constructor(props: {}) {
+
+export default class NewStory extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -48,7 +52,8 @@ export default class NewStory extends Component<{}, State> {
         let response = await fetch('http://localhost:3000/story/add-story', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.authToken,
         },
         body: JSON.stringify(adat)
         });
