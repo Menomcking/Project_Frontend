@@ -1,18 +1,12 @@
 import { Component } from "react";
 
 interface State {
-    storyParts: StoryParts[],
+    storyParts: string[],
     usersId: number|undefined,
     id: number|undefined,
     title: string,
     description: string,
     picture: string,
-}
-
-interface StoryParts {
-    textPartId: number,
-    textPart: string,
-    storyId: number,
 }
 
 interface Props {
@@ -24,7 +18,7 @@ export default class NewStory extends Component<Props, State> {
         super(props);
 
         this.state = {
-            storyParts: [ { textPartId: -1, textPart: '', storyId: -1 } ],
+            storyParts: [ '' ],
             usersId: undefined,
             id: undefined,
             title: '',
@@ -35,7 +29,7 @@ export default class NewStory extends Component<Props, State> {
 
     handleNewTextPart = () => {
         const { storyParts } = this.state;
-        const newParts = [ ...storyParts, { textPartId: -1, textPart: '', storyId: -1 } ]
+        const newParts = [ ...storyParts, '' ]
         this.setState({ storyParts: newParts })
     }
 
@@ -49,18 +43,17 @@ export default class NewStory extends Component<Props, State> {
             title: title,
             description: description,
             picture: picture,
-            textPart: storyParts
+            textPart: storyParts,
         };
-
-        
 
         let response = await fetch('http://localhost:3000/story/add-story', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + this.props.authToken,
         },
         body: JSON.stringify(adat)
-      });
+        });
     }
 
     render() {
@@ -77,15 +70,14 @@ export default class NewStory extends Component<Props, State> {
             <h3>Szöveg hozzáadása: </h3>
             {
                 storyParts.map((part, index) => {
-                    const { textPart } = part;
                     return (
                             <input 
                             type="text" 
                             placeholder="Szöveg" 
-                            value={textPart} 
+                            value={part} 
                             onChange={(e) => {
                                 const newStoryParts = [...storyParts];
-                                newStoryParts[index].textPart = e.target.value;
+                                newStoryParts[index] = e.target.value;
                                 this.setState({ storyParts: newStoryParts });
                             }}
                         />
