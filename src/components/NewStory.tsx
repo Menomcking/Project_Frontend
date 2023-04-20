@@ -12,6 +12,7 @@ interface State {
 
 interface Props {
     authToken: string;
+    storyId?: number;
 }
 
 
@@ -27,6 +28,30 @@ export default class NewStory extends Component<Props, State> {
             title: '',
             description: '',
             picture: ''
+        }
+    }
+
+    async componentDidMount() {
+        if (this.props.storyId !== undefined) {
+            const response = await fetch(`http://localhost:3000/story/get-story/${this.props.storyId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + this.props.authToken,
+                },
+            });
+
+            const data = await response.json();
+
+            const { title, description, picture, storyparts } = data;
+
+             this.setState({
+                title: title,
+                description: description,
+                picture: picture,
+                storyParts: storyparts,
+            });
+             
+            
         }
     }
 
@@ -59,13 +84,6 @@ export default class NewStory extends Component<Props, State> {
         });
     }
 
-    /*handleClick = () => {
-        console.log(this.state.title)
-        console.log(this.state.description)
-        console.log(this.state.picture)
-        console.log(this.state.storyParts)
-    }*/
-
     render() {
         const { title, storyParts, description, picture } = this.state;
 
@@ -79,7 +97,7 @@ export default class NewStory extends Component<Props, State> {
             <input type="text" placeholder="Kép URL-je" value={ picture } onChange={(e) => this.setState({ picture: e.target.value })}/>
             <h3>Szöveg hozzáadása: </h3>
             {
-                storyParts.map((part, index) => {
+                storyParts?.map((part, index) => {
                     return (
                             <input 
                             type="text" 
