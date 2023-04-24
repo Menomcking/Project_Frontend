@@ -66,25 +66,37 @@ export default class NewStory extends Component<Props, State> {
     handleSave = async () => {
         const { title, storyParts, description, picture } = this.state;
         if (title.trim() == '' || storyParts.length == 0) {
-            return;
+          return;
         }
-
+      
         const adat = {
-            title: title,
-            description: description,
-            picture: picture,
-            textPart: storyParts,
+          title: title,
+          description: description,
+          picture: picture,
+          textPart: storyParts,
         };
-
-        let response = await fetch('http://localhost:3000/story/add-story', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.props.authToken,
-        },
-        body: JSON.stringify(adat)
-        });
-    }
+      
+        let response;
+        if (this.props.storyId !== undefined) {
+          response = await fetch(`http://localhost:3000/story/update-story/${this.props.storyId}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + this.props.authToken,
+            },
+            body: JSON.stringify(adat)
+          });
+        } else {
+          response = await fetch('http://localhost:3000/story/add-story', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + this.props.authToken,
+            },
+            body: JSON.stringify(adat)
+          });
+        }
+      };
 
     render() {
         const { title, storyParts, description, picture } = this.state;
