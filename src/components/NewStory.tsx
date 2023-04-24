@@ -44,11 +44,13 @@ export default class NewStory extends Component<Props, State> {
 
             const { title, description, picture, storyparts } = data;
 
+            const formattedStoryParts = storyparts.map((part: { textPart: string }) => part.textPart);
+
              this.setState({
                 title: title,
                 description: description,
                 picture: picture,
-                storyParts: storyparts,
+                storyParts: formattedStoryParts,
             });
              
             
@@ -98,11 +100,12 @@ export default class NewStory extends Component<Props, State> {
             <h3>Szöveg hozzáadása: </h3>
             {
                 storyParts?.map((part, index) => {
+                    const value = typeof part === 'string' ? part : '';
                     return (
                             <input 
                             type="text" 
                             placeholder="Szöveg" 
-                            value={part} 
+                            value={String(part)} 
                             onChange={(e) => {
                                 const newStoryParts = [...storyParts];
                                 newStoryParts[index] = e.target.value;
