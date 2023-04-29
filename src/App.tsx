@@ -44,8 +44,8 @@ class App extends React.Component <Props, State>{
       <header>
         <nav>
           {
-              loggedIn ? <button onClick={this.handleLogout}>Kijelentkezés</button>
-              : <ul>
+              loggedIn ? <button id='logoutButton' onClick={this.handleLogout}>Kijelentkezés</button>
+              : <ul className="center">
                   <li><Link to='/register'>Regisztráció</Link></li>
                   <li><Link to='/login'>Bejelentkezés</Link></li>
                 </ul>
@@ -61,7 +61,7 @@ class App extends React.Component <Props, State>{
             />} />
           <Route path='/*' element={loggedIn ? <Main 
           authToken={authToken}
-          /> : <p>Jelentkezz be!</p>}/>
+          /> : <p id='ushouldlogin'>Regisztrálj vagy jelentkezz be!</p>}/>
         </Routes>
       </main>
     </div>

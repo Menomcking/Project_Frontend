@@ -47,7 +47,7 @@ export default class EditStory extends Component<Props, State> {
                 <ul>
                     {stories.map((story) => (
                         <li key={story.id} onClick={() => this.handleStoryClick(story.id)}>
-                            {story.title}
+                            <a href="#">{story.title}</a>
                         </li>
                     ))}
                 </ul>

@@ -1,11 +1,13 @@
 import { Component } from "react";
 import { Container } from "react-bootstrap";
+import '../App.css';
 
 interface State {
     users: User[],
     userName: string,
     userPassword: string,
     userEmail: string,
+    registrationSuccess: boolean,
   }
   
   interface User {
@@ -27,7 +29,8 @@ interface State {
         userName: '',
         userPassword: '',
         userEmail: '',
-        users: []
+        users: [],
+        registrationSuccess: false,
       }
     }
   
@@ -51,19 +54,23 @@ interface State {
         body: JSON.stringify(adat)
       });
   
-      this.setState({
-        userName: '',
-        userPassword: '',
-        userEmail: '',
-      })
+      if (response.ok) {
+        this.setState({
+          userName: '',
+          userPassword: '',
+          userEmail: '',
+          registrationSuccess: true,
+        });
+      }
     }
   
     render() {
-      const { userName, userPassword, userEmail } = this.state;
+      const { userName, userPassword, userEmail, registrationSuccess } = this.state;
   
       return <Container><div id="root">
         <div id="registrationDiv" className="col-sm-12">
         <h2 id="registrationH2">Regisztráció</h2>
+        { registrationSuccess && <p id="regsuccess">A regisztráció sikeres!</p> }
         <input type="text" className='registrationInput' placeholder='Felhasználónév' value={ userName } onChange={e => this.setState({ userName: e.currentTarget.value})}/><br />
         <input type="password" className='registrationInput' placeholder='Jelszó' value={ userPassword } onChange={e => this.setState({ userPassword: e.currentTarget.value})}/><br />
         <input type="text" className='registrationInput' placeholder='Email' value={ userEmail } onChange={e => this.setState({ userEmail: e.currentTarget.value})}/><br />

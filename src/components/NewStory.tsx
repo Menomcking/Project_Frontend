@@ -8,6 +8,7 @@ interface State {
     title: string,
     description: string,
     picture: string,
+    isSaved: boolean,
 }
 
 interface Props {
@@ -27,7 +28,8 @@ export default class NewStory extends Component<Props, State> {
             rating: 0,
             title: '',
             description: '',
-            picture: ''
+            picture: '',
+            isSaved: false,
         }
     }
 
@@ -64,7 +66,7 @@ export default class NewStory extends Component<Props, State> {
     }
 
     handleSave = async () => {
-        const { title, storyParts, description, picture } = this.state;
+        const { title, storyParts, description, picture, isSaved } = this.state;
         if (title.trim() == '' || storyParts.length == 0) {
           return;
         }
@@ -86,6 +88,9 @@ export default class NewStory extends Component<Props, State> {
             },
             body: JSON.stringify(adat)
           });
+          if (response.ok) {
+            this.setState({ isSaved: true });
+          }
         } else {
           response = await fetch('http://localhost:3000/story/add-story', {
             method: 'POST',
@@ -95,14 +100,18 @@ export default class NewStory extends Component<Props, State> {
             },
             body: JSON.stringify(adat)
           });
+          if (response.ok) {
+            this.setState({ isSaved: true });
+          }
         }
       };
 
     render() {
-        const { title, storyParts, description, picture } = this.state;
+        const { title, storyParts, description, picture, isSaved } = this.state;
 
         return <div>
-            <button onClick={this.handleSave}>Mentés</button>
+            <button className="mainButtons" onClick={this.handleSave}>Mentés</button>
+            {isSaved && <p style={{color: 'green'}}>Sikeres mentés!</p>}
             <h3>Cím:</h3>
             <input type="text" placeholder="Cím" value={ title } onChange={(e) => this.setState({ title: e.target.value })}/>
             <h3>Leírás:</h3>
@@ -114,6 +123,7 @@ export default class NewStory extends Component<Props, State> {
                 storyParts?.map((part, index) => {
                     const value = typeof part === 'string' ? part : '';
                     return (
+                      <div>
                             <input 
                             type="text" 
                             placeholder="Szöveg" 
@@ -123,12 +133,13 @@ export default class NewStory extends Component<Props, State> {
                                 newStoryParts[index] = e.target.value;
                                 this.setState({ storyParts: newStoryParts });
                             }}
-                        />
+                            /><br />
+                      </div> 
                     )
                 })
             }
 
-            <button onClick={this.handleNewTextPart}>Új szöveg</button>
+            <button className="mainButtons" onClick={this.handleNewTextPart}>Új szöveg</button>
             
         </div>
     }

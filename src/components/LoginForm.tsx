@@ -1,5 +1,7 @@
 import { Component, FormEvent } from "react";
 import { Navigate } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import '../App.css';
 
 interface State {
     email: string;
@@ -64,19 +66,25 @@ export default class LoginForm extends Component<Props, State> {
         }
 
         
-        return <form onSubmit={this.handleLogin}>
-            <label>
-                Email:<br />
-                <input type="text" value={email} onChange={(e) => this.setState({ email: e.target.value })} />
-            </label>
-            <br />
-            <label>
-                Jelszó:<br />
-                <input type="password" value={password} onChange={(e) => this.setState({ password: e.target.value })} />
-            </label>
-            <br />
-            <p>{loginError}</p>
-            <input type="submit" value="Bejelentkezés" />
-        </form>
+        return <Container><div id="root">
+            <div id="loginDiv" className="col-sm-12">
+                <h2 id="loginH2">Bejelentkezés</h2>
+                <form onSubmit={this.handleLogin}>
+                    <label>
+                        Email:
+                        <input type="text" className="loginInput" value={email} onChange={(e) => this.setState({ email: e.target.value })} />
+                    </label>
+                    <br />
+                    <label>
+                        Jelszó:
+                        <input type="password" className="loginInput" value={password} onChange={(e) => this.setState({ password: e.target.value })} />
+                    </label>
+                    <br />
+                    <p id="loginErr">{loginError}</p>
+                    <input type="submit" id="loginButton" value="Bejelentkezés" />
+                </form>
+            </div>
+        </div>
+        </Container>
     }
 }
