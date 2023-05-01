@@ -9,10 +9,6 @@ interface Props {
 
 export default class Main extends Component <Props>{
 
-    handleScrollTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
     render() {
         return <div>
             <div id="mainpage">
