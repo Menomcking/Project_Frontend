@@ -1,5 +1,14 @@
 import { Component } from "react";
-
+/**
+ * storyParts: string tömb, a történet szövegeit tartalmazza
+ * usersId: szám, a felhasználó azonosítója
+ * id: szám, azonosító
+ * rating: szám, a történet értékelése
+ * title: string, a történet címe
+ * description: string, a történet leírása
+ * picture: string, a történethez tartozó kép URL-je
+ * isSaved: logikai, mentés sikeres-e vagy sem
+ */
 interface State {
     storyParts: string[],
     usersId: number|undefined,
@@ -10,7 +19,10 @@ interface State {
     picture: string,
     isSaved: boolean,
 }
-
+/**
+ * authToken: A token ami az autentikációhoz szükséges
+ * storyId: A történethez tartozó azonosító
+ */
 interface Props {
     authToken: string;
     storyId?: number;
@@ -32,7 +44,9 @@ export default class NewStory extends Component<Props, State> {
             isSaved: false,
         }
     }
-
+    /**
+     * A backenden meghívja a get-story végpontot az aktuális történet id-je alapján
+     */
     async componentDidMount() {
         if (this.props.storyId !== undefined) {
             const response = await fetch(`http://localhost:3000/story/get-story/${this.props.storyId}`, {
@@ -58,13 +72,18 @@ export default class NewStory extends Component<Props, State> {
             
         }
     }
-
+    /**
+     * Felveszi az újonnan hozzáadott szövegrészeket
+     */
     handleNewTextPart = () => {
         const { storyParts } = this.state;
         const newParts = [ ...storyParts, '' ]
         this.setState({ storyParts: newParts })
     }
-
+    /**
+     * 
+     * @returns Üres cím vagy szövegrészek esetén sikertelen mentés
+     */
     handleSave = async () => {
         const { title, storyParts, description, picture, isSaved } = this.state;
         if (title.trim() == '' || storyParts.length == 0) {
@@ -77,7 +96,9 @@ export default class NewStory extends Component<Props, State> {
           picture: picture,
           textPart: storyParts,
         };
-      
+      /**
+       * Ha már létezik az adott id-vel türténet, a backenden meghívja az update-story végpontot az aktuális történet id-je alapján
+       */
         let response;
         if (this.props.storyId !== undefined) {
           response = await fetch(`http://localhost:3000/story/update-story/${this.props.storyId}`, {
@@ -92,6 +113,9 @@ export default class NewStory extends Component<Props, State> {
             this.setState({ isSaved: true });
           }
         } else {
+          /**
+           * Amennyiben még nem létezik az id, a backenden meghívja az add-story végpontot és újat ad hozzá
+           */
           response = await fetch('http://localhost:3000/story/add-story', {
             method: 'POST',
             headers: {
@@ -105,7 +129,10 @@ export default class NewStory extends Component<Props, State> {
           }
         }
       };
-
+      /**
+       * 
+       * @returns Megjeleníti azokat az input mezőket, ahol a felhasználó szerkesztheti a történetét
+       */
     render() {
         const { title, storyParts, description, picture, isSaved } = this.state;
 

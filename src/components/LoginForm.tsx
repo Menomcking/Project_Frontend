@@ -2,7 +2,11 @@ import { Component, FormEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import '../App.css';
-
+/**
+ * email: String, felhasználó email címe
+ * password: String, felhasználó jelszava
+ * loginError: String, hibaüzenet
+ */
 interface State {
     email: string;
     password: string;
@@ -10,7 +14,15 @@ interface State {
 }
 
 interface Props {
+    /**
+    * authToken: A token ami az autentikációhoz szükséges
+    */
     authToken: string;
+    /**
+     * 
+     * @param token Token
+     * @returns Void, autentikációhoz szükséges
+     */
     onAuthTokenChange: (token: string) => void;
 }
 
@@ -24,14 +36,20 @@ export default class LoginForm extends Component<Props, State> {
             loginError: '',
         }
     }
-
+    /**
+     * 
+     * @param e Esemény
+     * @returns Egyező email és jelszó páros esetén a bejelentkezés sikeres, különben hibaüzenet
+     */
     handleLogin = async (e: FormEvent) => {
         e.preventDefault();
         const loginData = {
             'email': this.state.email,
             'password': this.state.password,
         };
-
+        /**
+         * Meghívja  abackenden a log-in végpontot, bejelentkezteti a felhasználót, amennyiben az adatait helyesen adta meg
+         */
         const response = await fetch('http://localhost:3000/authentication/log-in', {
             method: 'POST',
             headers: {
@@ -56,7 +74,10 @@ export default class LoginForm extends Component<Props, State> {
         })
         this.props.onAuthTokenChange(responseBody.token);
     }
-
+    /**
+     * 
+     * @returns A bejelentkezési űrlapot jeleníti meg
+     */
     render() {
         const { authToken } = this.props;
         const { email, password, loginError } = this.state;

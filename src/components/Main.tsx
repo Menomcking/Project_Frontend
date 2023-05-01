@@ -2,13 +2,18 @@ import { Component } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import EditStory from "./EditStory";
 import NewStory from "./NewStory";
-
+/**
+ * authToken: A token ami az autentikációhoz szükséges
+ */
 interface Props {
     authToken: string;
 }
 
 export default class Main extends Component <Props>{
-
+    /**
+     * 
+     * @returns 2 gombot jelenít meg, ahol a felhasználó kiválaszthatja, hogy mit szeretne csinálni
+     */
     render() {
         return <div>
             <div id="mainpage">

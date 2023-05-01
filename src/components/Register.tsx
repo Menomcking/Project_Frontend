@@ -1,7 +1,13 @@
 import { Component } from "react";
 import { Container } from "react-bootstrap";
 import '../App.css';
-
+/**
+ * users: User típusú tömb, a felhasználókat tartalmazza
+ * userName: string, a felhasználó neve
+ * userPassword: string, a felhasználó jelszava
+ * userEmail: string, a felhasználó email-je
+ * registrationSuccess: logikai, sikeres-e a regisztráció vagy sem
+ */
 interface State {
     users: User[],
     userName: string,
@@ -9,17 +15,22 @@ interface State {
     userEmail: string,
     registrationSuccess: boolean,
   }
-  
+  /**
+   * id: szám, azonosító
+   * name: string, név
+   * password: string, jelszó
+   * email: string, email
+   */
   interface User {
     id: number,
     name: string,
     password: string,
     email: string,
   }
-  
+  /*
   interface UserListResponse {
     users: User[],
-  }
+  }*/
   
   export default class Register extends Component<{}, State> {
     constructor(props: {}) {
@@ -33,7 +44,10 @@ interface State {
         registrationSuccess: false,
       }
     }
-  
+    /**
+     * 
+     * @returns Amennyiben van hiányos mező a regisztrációs űrlapban, a regisztráció sikertelen
+     */
     handleRegister = async () => {
       const { userName, userPassword, userEmail } = this.state;
       if (userName.trim() == '' || userPassword.trim() == '' || userEmail.trim() == '') {
@@ -45,7 +59,9 @@ interface State {
         password: userPassword,
         email: userEmail
       };
-  
+      /**
+       * A backenden meghívja a register végpontot, ami felveszi az adatbázisba a felhasználót
+       */
       let response = await fetch('http://localhost:3000/authentication/register', {
         method: 'POST',
         headers: {
@@ -63,7 +79,10 @@ interface State {
         });
       }
     }
-  
+    /**
+     * 
+     * @returns Megjeleníti a regisztrációs űrlapot
+     */
     render() {
       const { userName, userPassword, userEmail, registrationSuccess } = this.state;
   

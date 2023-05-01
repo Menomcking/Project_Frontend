@@ -7,7 +7,9 @@ import { Link, Route, Routes } from 'react-router-dom';
 import Register from './components/Register';
 import Main from './components/Main';
 import LoginForm from './components/LoginForm';
-
+/**
+ * authToken: A token ami az autentikációhoz szükséges
+ */
 interface State {
   authToken: string;
 }
@@ -23,19 +25,26 @@ class App extends React.Component <Props, State>{
       authToken: '',
     }
   }
-
+  /**
+   * Az autentikációhoz szükséges tokent kezeli, ha null, akkor beállítja
+   */
   componentDidMount(): void {
     const token = localStorage.getItem('authToken')
     if(token !== null) {
       this.setState({authToken: token});
     }
   }
-
+  /**
+   * Kijelentkezés, a tokent üresre állítja
+   */
   handleLogout = () => {
     localStorage.removeItem('authToken');
     this.setState({authToken: ''});
 }
-
+  /**
+   * 
+   * @returns Megjeleníti a regisztráció és a bejelentkezés gombját
+   */
   render() {
     const { authToken } = this.state;
     const loggedIn = authToken != '';
